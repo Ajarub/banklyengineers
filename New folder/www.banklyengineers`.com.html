@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+  </head>
+  <body>
+    <section class="hero is-primary is-bold">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Bankly Trade Partner Engineers Data Base</h1>
+        </div>
+      </div>
+    </section>
+    <form id="form" class="container m-4 pl-4" method="POST">
+      <div class="field">
+        <label class="label">Model</label>
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            placeholder="Model"
+            name="Model"
+          />
+        </div>
+      </div>
+
+      <div class="field"></div>
+        <label class="label">Serial Number</label>
+        <div class="control">
+          <textarea
+            class="textarea"
+            placeholder="Serial Number"
+            name="Serial Number"
+          ></textarea>
+        </div>
+      </div>
+
+
+      
+
+      
+
+      <div class="field">
+        <label class="label">Date</label>
+        <div class="control">
+          <input
+            class="input"
+            type="Date"
+            placeholder="Date"
+            name="Date"
+          />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Successful</label>
+        <div class="control">
+          <label class="radio">
+            <input type="radio" name="Successful" value="yes" /> yes
+          </label>
+          <label class="radio">
+            <input type="radio" name="Successful" value="no" /> no
+          </label>
+        </div>
+      </div>
+
+
+      <div class="field"></div>
+        <label class="label">Parts Used</label>
+        <div class="control">
+          <textarea
+            class="textarea"
+            placeholder="Parts used"
+            name="Parts Used"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="field"></div>
+        <label class="label">Agent Name</label>
+        <div class="control">
+          <textarea
+            class="textarea"
+            placeholder="Agent Name"
+            name="Agent Name"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="field"></div>
+        <label class="label">Agent Phone</label>
+        <div class="control">
+          <textarea
+            class="textarea"
+            placeholder="Agent Phone"
+            name="Agent Phone"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="field"></div>
+        <label class="label">Fault</label>
+        <div class="control">
+          <textarea
+            class="textarea"
+            placeholder="Fault"
+            name="Fault"
+          ></textarea>
+        </div>
+      </div>
+
+      
+
+    
+
+
+
+
+      <div class="field">
+        <label class="label">Engineer Name</label>
+        <div class="control">
+          <textarea
+            class="textarea"
+            placeholder="Engineer Name"
+            name="Engineer Name"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="field"></div>
+        <label class="label">Engineer Access No</label>
+        <div class="control">
+          <textarea
+            class="textarea"
+            placeholder="Engineer Access No"
+            name="Engineer Access No"
+          ></textarea>
+        </div>
+      </div>
+
+
+
+
+
+
+
+      
+      <div class="field">
+        <label class="label">Solution</label>
+        <div class="control">
+          <textarea
+            class="textarea"
+            placeholder="Solution"
+            name="Solution"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-primary" type="submit" id="submit-button">
+            Submit
+          </button>
+        </div>
+        <div class="control">
+          <button class="button is-danger">Cancel</button>
+        </div>
+      </div>
+    </form>
+    <div
+      id="message"
+      style="
+        display: none;
+        margin: 20px;
+        font-weight: bold;
+        color: #1310da;
+        padding: 8px;
+        background-color: rgb(88, 182, 25);
+        border-radius: 4px;
+        border-color: rgb(10, 12, 11);
+      "
+    ></div>
+
+    <script>
+      document.getElementById("form").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent the default form submission
+        document.getElementById("message").textContent = "Submitting..";
+        document.getElementById("message").style.display = "block";
+        document.getElementById("submit-button").disabled = true;
+
+        // Collect the form data
+        var formData = new FormData(this);
+        var keyValuePairs = [];
+        for (var pair of formData.entries()) {
+          keyValuePairs.push(pair[0] + "=" + pair[1]);
+        }
+
+        var formDataString = keyValuePairs.join("&");
+
+        // Send a POST request to your Google Apps Script
+        fetch(
+          "https://script.google.com/macros/s/AKfycbzUMcZWXeoDJydt36CDDUV4mN51NfRHuA99e3AnG7nOnHzRXDthEFFYKVfm_yftlrs9/exec",
+          {
+            redirect: "follow",
+            method: "POST",
+            body: formDataString,
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8",
+            },
+          }
+        )
+          .then(function (response) {
+            // Check if the request was successful
+            if (response) {
+              return response; // Assuming your script returns JSON response
+            } else {
+              throw new Error("Failed to submit the form.");
+            }
+          })
+          .then(function (data) {
+            // Display a success message
+            document.getElementById("message").textContent =
+              "Data submitted successfully!";
+            document.getElementById("message").style.display = "block";
+            document.getElementById("message").style.backgroundColor = "green";
+            document.getElementById("message").style.color = "beige";
+            document.getElementById("submit-button").disabled = false;
+            document.getElementById("form").reset();
+
+            setTimeout(function () {
+              document.getElementById("message").textContent = "";
+              document.getElementById("message").style.display = "none";
+            }, 2600);
+          })
+          .catch(function (error) {
+            // Handle errors, you can display an error message here
+            console.error(error);
+            document.getElementById("message").textContent =
+              "An error occurred while submitting the form.";
+            document.getElementById("message").style.display = "block";
+          });
+      });
+    </script>
+  </body>
+</html>
